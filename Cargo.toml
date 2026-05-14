@@ -1,0 +1,45 @@
+[package]
+name = "tangible"
+version = "0.0.1"
+edition = "2024"
+rust-version = "1.85"
+description = "Design tokens as data — colors, type, space, shadows, gradients, and contrast — rendered to CSS."
+documentation = "https://docs.rs/tangible"
+readme = "README.md"
+repository = "https://github.com/esmevane/tangible"
+license = "MIT OR Apache-2.0"
+keywords = ["colors", "css", "design-system", "design-tokens", "gradient"]
+categories = ["command-line-utilities", "template-engine"]
+
+[lib]
+name = "tangible"
+path = "src/lib.rs"
+
+[[bin]]
+name = "tangible"
+required-features = ["cli"]
+
+[dependencies]
+anyhow = { version = "1.0", optional = true }
+clap = { version = "4.6", features = ["derive"], optional = true }
+colorgrad = { version = "0.8", features = ["lab"] }
+csscolorparser = "0.8"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
+
+[features]
+default = ["cli"]
+cli = ["dep:anyhow", "dep:clap"]
+
+[lints.clippy]
+# missing_errors_doc = "allow"
+# module_name_repetitions = "allow"
+# must_use_candidate = "allow"
+# needless_raw_string_hashes = "allow"
+pedantic = { level = "warn", priority = -1 }
+# too_many_lines = "allow"
+
+[lints.rust]
+missing_docs = "deny"
+unsafe_code = "forbid"
