@@ -5,6 +5,42 @@
 //! step in the pipeline (parsing, resolving palettes, picking inks, emitting CSS) is available
 //! programmatically for embedding in build scripts, generators, or design-system tooling.
 //!
+//! # Themes
+//!
+//! Five sample themes, each rendered from a single JSON spec. Source specs and sample HTML are
+//! in the [`samples/`](https://github.com/esmevane/tangible/tree/main/samples) directory of the
+//! repository.
+//!
+//! ### Prose
+//!
+//! *Editorial light · Literata · blue + amber on warm neutrals*
+//!
+//! ![prose](https://raw.githubusercontent.com/esmevane/tangible/main/samples/prose.png)
+//!
+//! ### Starliner
+//!
+//! *Sleek dark · Sora · violet + emerald*
+//!
+//! ![starliner](https://raw.githubusercontent.com/esmevane/tangible/main/samples/starliner.png)
+//!
+//! ### Tropical
+//!
+//! *Vivid · Bricolage Grotesque · coral + teal*
+//!
+//! ![tropical](https://raw.githubusercontent.com/esmevane/tangible/main/samples/tropical.png)
+//!
+//! ### Candy
+//!
+//! *Sweet light · Caprasimo · pink + lime on cream*
+//!
+//! ![candy](https://raw.githubusercontent.com/esmevane/tangible/main/samples/candy.png)
+//!
+//! ### Cosmic
+//!
+//! *Deep space · Audiowide · magenta + cyan on ink*
+//!
+//! ![cosmic](https://raw.githubusercontent.com/esmevane/tangible/main/samples/cosmic.png)
+//!
 //! # At a glance
 //!
 //! ```no_run

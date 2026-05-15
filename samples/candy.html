@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>tangible — sample</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,700;1,7..72,400&family=Sora:wght@400;500;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&family=Caprasimo&family=Audiowide&display=swap">
+  <link rel="stylesheet" href="candy.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-family-sans);
+      font-size: var(--font-size-md);
+      line-height: var(--line-height-md);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-feature-settings: 'kern', 'liga', 'calt', 'ss01';
+      padding-block: clamp(2.5rem, 6vw, 6rem) 4rem;
+    }
+    main, .title-block, footer {
+      max-width: 64rem;
+      margin-inline: auto;
+      padding-inline: clamp(1.25rem, 3vw, 2.5rem);
+    }
+
+    /* ---- Title block ---- */
+    .title-block {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 1rem;
+      padding-bottom: 2.5rem;
+      border-bottom: var(--border-width-sm) solid var(--color-muted);
+      margin-bottom: clamp(3rem, 7vw, 6rem);
+    }
+    .wordmark {
+      font-family: var(--font-family-display);
+      font-size: clamp(3.5rem, 11vw, 7rem);
+      font-weight: var(--font-weight-700);
+      line-height: 0.9;
+      letter-spacing: -0.045em;
+      color: var(--color-text);
+      text-transform: lowercase;
+    }
+    .title-meta {
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-muted);
+      text-align: right;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .byline {
+      grid-column: 1 / -1;
+      margin-top: 1.5rem;
+      font-family: var(--font-family-display);
+      font-style: italic;
+      font-weight: var(--font-weight-400);
+      font-size: clamp(1.125rem, 2.2vw, 1.4rem);
+      line-height: 1.45;
+      max-width: 38ch;
+      color: var(--color-muted);
+    }
+    .byline .brand {
+      font-family: var(--font-family-mono);
+      font-style: normal;
+      font-size: 0.78em;
+      color: var(--color-text);
+      letter-spacing: 0.02em;
+    }
+
+    /* ---- Sections ---- */
+    .section { margin-block: clamp(3.5rem, 7vw, 6rem); }
+    .section + .section { margin-top: clamp(4rem, 8vw, 7rem); }
+    .section-head {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      align-items: baseline;
+      gap: 1rem;
+    }
+    .section-number {
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-500);
+      color: var(--color-muted);
+      letter-spacing: 0.1em;
+      padding-top: 0.5rem;
+    }
+    .section-title {
+      font-family: var(--font-family-display);
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: var(--font-weight-700);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+    }
+    .section-desc {
+      margin-top: 0.75rem;
+      margin-left: 5.5rem;
+      max-width: 58ch;
+      color: var(--color-muted);
+      font-size: var(--font-size-md);
+      line-height: 1.55;
+    }
+    .section-body { margin-top: 2.5rem; }
+
+    /* ---- Palettes ---- */
+    .palette-row {
+      display: grid;
+      grid-template-columns: 7rem 1fr;
+      gap: 1.25rem;
+      align-items: stretch;
+      margin-bottom: 1rem;
+    }
+    .palette-name {
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-muted);
+      align-self: center;
+      letter-spacing: 0.04em;
+    }
+    .palette-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(3.5rem, 1fr));
+      gap: 2px;
+    }
+    .swatch {
+      aspect-ratio: 5 / 4;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 0.5rem 0.6rem;
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-500);
+    }
+
+    /* ---- Semantic ---- */
+    .semantic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+      gap: 1px;
+    }
+    .semantic-chip {
+      padding: 1.5rem 1.25rem 1.25rem;
+      display: grid;
+      align-content: end;
+      gap: 0.2rem;
+      min-height: 7.5rem;
+    }
+    .semantic-chip .name {
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-500);
+    }
+    .semantic-chip .var {
+      font-family: var(--font-family-mono);
+      font-size: 0.75rem;
+      opacity: 0.7;
+      letter-spacing: 0.02em;
+    }
+
+    /* ---- Contrast ---- */
+    .contrast-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+    }
+    .contrast-cell {
+      padding: 2rem 1.75rem;
+      display: grid;
+      gap: 0.6rem;
+      align-content: end;
+      min-height: 11rem;
+    }
+    .contrast-cell h4 {
+      font-family: var(--font-family-display);
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-700);
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+    }
+    .contrast-cell p {
+      font-size: var(--font-size-sm);
+      line-height: 1.5;
+      max-width: 34ch;
+      opacity: 0.92;
+    }
+    .contrast-cell .var-name {
+      margin-top: 0.4rem;
+      font-family: var(--font-family-mono);
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    /* ---- Typography ---- */
+    .type-specimen { display: grid; gap: 1.75rem; }
+    .type-display {
+      font-family: var(--font-family-display);
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: var(--font-weight-700);
+      letter-spacing: -0.035em;
+      line-height: 0.95;
+    }
+    .type-display em {
+      font-style: italic;
+      font-weight: var(--font-weight-400);
+    }
+    .type-body {
+      font-family: var(--font-family-sans);
+      font-size: var(--font-size-md);
+      line-height: var(--line-height-md);
+      max-width: 60ch;
+    }
+    .type-body .var-name {
+      font-family: var(--font-family-mono);
+      font-size: 0.85em;
+      color: var(--color-muted);
+    }
+    .type-mono-block {
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      background: var(--color-surface);
+      padding: 1.25rem 1.5rem;
+      border-radius: var(--radius-sm);
+      max-width: 60ch;
+      line-height: 1.6;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    /* ---- Space / Dimensions ---- */
+    .bar-row {
+      display: grid;
+      grid-template-columns: 9rem 1fr;
+      gap: 1rem;
+      align-items: center;
+      padding-block: 0.4rem;
+    }
+    .bar-label {
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-muted);
+      letter-spacing: 0.02em;
+    }
+    .bar {
+      height: 0.75rem;
+      background: var(--color-text);
+      border-radius: var(--radius-sm);
+    }
+
+    /* ---- Borders / Shadows / Glows (three-cell grids) ---- */
+    .three-up {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .demo-cell {
+      aspect-ratio: 4 / 3;
+      background: var(--color-surface);
+      display: grid;
+      align-items: end;
+      justify-content: start;
+      padding: 1.25rem;
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-muted);
+    }
+    .border-cell {
+      background: transparent;
+      border-style: solid;
+      border-color: var(--color-text);
+    }
+    .shadow-cell {
+      background: var(--color-bg);
+      border: var(--border-width-sm) solid var(--color-muted);
+    }
+    .glow-cell {
+      background: transparent;
+      display: grid;
+      place-items: center;
+      align-content: end;
+      grid-template-rows: 1fr auto;
+      padding: 1.25rem;
+    }
+    .glow-cell .disc {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+      background: var(--color-bg);
+      border: var(--border-width-sm) solid var(--color-muted);
+      margin-bottom: 0.75rem;
+    }
+    .glow-cell .label {
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-muted);
+      justify-self: start;
+    }
+
+    /* ---- Gradients ---- */
+    .gradient-row {
+      display: grid;
+      grid-template-columns: 9rem 1fr;
+      gap: 1.25rem;
+      align-items: stretch;
+      margin-bottom: 1rem;
+    }
+    .gradient-strip {
+      height: 4rem;
+      border-radius: var(--radius-sm);
+    }
+    .gradient-name {
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-muted);
+      align-self: center;
+      letter-spacing: 0.02em;
+    }
+
+    /* ---- Transitions ---- */
+    .transition-demo {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      padding: 0.85rem 1.25rem;
+      border: var(--border-width-sm) solid var(--color-muted);
+      border-radius: var(--radius-md);
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      transition: background var(--transition-default), color var(--transition-default), border-color var(--transition-default);
+      cursor: pointer;
+      background: transparent;
+      color: var(--color-text);
+    }
+    .transition-demo:hover {
+      background: var(--color-text);
+      color: var(--color-bg);
+      border-color: var(--color-text);
+    }
+    .transition-demo .var-name {
+      font-size: 0.85em;
+      opacity: 0.7;
+    }
+
+    /* ---- Footer ---- */
+    footer {
+      margin-top: clamp(5rem, 10vw, 9rem);
+      padding-top: 2rem;
+      border-top: var(--border-width-sm) solid var(--color-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      color: var(--color-muted);
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 720px) {
+      .title-block { grid-template-columns: 1fr; }
+      .variant { text-align: left; }
+      .tagline { grid-column: 1; }
+      .section-head { grid-template-columns: 1fr; gap: 0.5rem; }
+      .section-desc { margin-left: 0; }
+      .palette-row, .gradient-row, .bar-row { grid-template-columns: 1fr; gap: 0.5rem; }
+      .three-up { grid-template-columns: 1fr; }
+      .contrast-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="title-block">
+    <h1 class="wordmark" data-theme-name>—</h1>
+    <div class="title-meta">
+      <span data-stylesheet>—</span>
+      <span>v0.0.1</span>
+    </div>
+    <p class="byline">sample design tokens by <span class="brand">tangible</span> — a JSON spec becomes a sheet of CSS custom properties.</p>
+  </header>
+
+  <main>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="section-number">01</span>
+        <h2 class="section-title">Palettes</h2>
+      </div>
+      <p class="section-desc">Raw colour scales emitted from the spec. Each scale is either an explicit hex list or interpolated between stops in <span style="font-family:var(--font-family-mono)">oklab</span>, <span style="font-family:var(--font-family-mono)">rgb</span>, or <span style="font-family:var(--font-family-mono)">lab</span>.</p>
+      <div class="section-body" data-palette-grid></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="section-number">02</span>
+        <h2 class="section-title">Semantic colours</h2>
+      </div>
+      <p class="section-desc">Named roles bound to palette shades. Use these in product code; the raw palettes are implementation detail. Each theme decides its own vocabulary.</p>
+      <div class="section-body semantic-grid" data-semantic-grid></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="section-number">03</span>
+        <h2 class="section-title">Contrast</h2>
+      </div>
+      <p class="section-desc">For every semantic colour, tangible picks the higher-contrast ink by WCAG luminance and emits a paired text-shadow.</p>
+      <div class="section-body contrast-row">
+        <div class="contrast-cell" style="background:var(--color-surface);color:var(--color-surface-ink)">
+          <h4>Surface with paired ink</h4>
+          <p>Body type set on a surface tile uses <code style="font-family:var(--font-family-mono);font-size:0.95em">--color-surface-ink</code> for legibility.</p>
+          <span class="var-name">var(--color-surface), var(--color-surface-ink)</span>
+        </div>
+        <div class="contrast-cell" style="background:var(--color-text);color:var(--color-text-ink);text-shadow:var(--color-text-shadow)">
+          <h4>Text used as a surface</h4>
+          <p>When the text colour itself becomes a background, the paired ink keeps the contrast intact.</p>
+          <span class="var-name">var(--color-text), var(--color-text-ink)</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="section-number">04</span>
+        <h2 class="section-title">Typography</h2>
+      </div>
+      <p class="section-desc">Three families: a display face for headings, a body sans for prose, and a monospace for code and variable names. Sizes, weights, and line-heights are all tokens.</p>
+      <div class="section-body type-specimen">
+        <div class="type-display">Aa Bb Cc <em>01</em></div>
+        <p class="type-body">Body type, set at <span class="var-name">var(--font-size-md)</span> and <span class="var-name">var(--line-height-md)</span>. Held to roughly sixty characters of line length so the eye can track without strain.</p>
+        <pre class="type-mono-block">use tangible::{Renderer, Spec};
+
+let spec: Spec = serde_json::from_str(json)?;
+let css = Renderer::new().render(&amp;spec)?;</pre>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="section-number">05</span>
+        <h2 class="section-title">Space</h2>
+      </div>
+      <p class="section-desc">A short scale used consistently produces rhythm. The bars below render at the actual emitted widths.</p>
+      <div class="section-body">
+        <div class="bar-row"><span class="bar-label">--space-sm</span><div class="bar" style="width:var(--space-sm)"></div></div>
+        <div class="bar-row"><span class="bar-label">--space-md</span><div class="bar" style="width:var(--space-md)"></div></div>
+        <div class="bar-row"><span class="bar-label">--space-lg</span><div class="bar" style="width:var(--space-lg)"></div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="section-number">06</span>
+        <h2 class="section-title">Dimensions</h2>
+      </div>
+      <p class="section-desc">Width tokens for containers and constrained content.</p>
+      <div class="section-body">
+        <div class="bar-row"><span class="bar-label">--dimension-sm</span><div class="bar" style="width:var(--dimension-sm)"></div></div>
+        <div class="bar-row"><span class="bar-label">--dimension-md</span><div class="bar" style="width:var(--dimension-md)"></div></div>
+        <div class="bar-row"><span class="bar-label">--dimension-lg</span><div class="bar" style="width:var(--dimension-lg)"></div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="section-number">07</span>
+        <h2 class="section-title">Borders</h2>
+      </div>
+      <p class="section-desc">Radii and stroke widths, named on the same <span style="font-family:var(--font-family-mono)">sm/md/lg</span> scale.</p>
+      <div class="section-body three-up">
+        <div class="demo-cell" style="border-radius:var(--radius-sm)">--radius-sm</div>
+        <div class="demo-cell" style="border-radius:var(--radius-md)">--radius-md</div>
+        <div class="demo-cell" style="border-radius:var(--radius-lg)">--radius-lg</div>
+      </div>
+      <div class="section-body three-up" style="margin-top:1.5rem">
+        <div class="demo-cell border-cell" style="border-width:var(--border-width-sm)">--border-width-sm</div>
+        <div class="demo-cell border-cell" style="border-width:var(--border-width-md)">--border-width-md</div>
+        <div class="demo-cell border-cell" style="border-width:var(--border-width-lg)">--border-width-lg</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="section-number">08</span>
+        <h2 class="section-title">Shadows</h2>
+      </div>
+      <p class="section-desc">Multi-layer drop shadows, named by elevation.</p>
+      <div class="section-body three-up">
+        <div class="demo-cell shadow-cell" style="box-shadow:var(--shadow-neutral-low)">--shadow-neutral-low</div>
+        <div class="demo-cell shadow-cell" style="box-shadow:var(--shadow-neutral-medium)">--shadow-neutral-medium</div>
+        <div class="demo-cell shadow-cell" style="box-shadow:var(--shadow-neutral-high)">--shadow-neutral-high</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="section-number">09</span>
+        <h2 class="section-title">Gradients</h2>
+      </div>
+      <p class="section-desc">Colour-space-interpolated gradients, emitted both as <code style="font-family:var(--font-family-mono)">var</code> references and as pre-resolved strings.</p>
+      <div class="section-body" data-gradient-grid></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="section-number">10</span>
+        <h2 class="section-title">Glows</h2>
+      </div>
+      <p class="section-desc">Coloured drop shadows, named by intensity.</p>
+      <div class="section-body" data-glow-grid></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="section-number">11</span>
+        <h2 class="section-title">Transitions</h2>
+      </div>
+      <p class="section-desc">A single default timing curve. Hover the button to see it in motion.</p>
+      <div class="section-body">
+        <button class="transition-demo" type="button">hover me <span class="var-name">— var(--transition-default)</span></button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>tangible · v0.0.1</span>
+    <span data-source>—</span>
+  </footer>
+
+  <script>
+  (function() {
+    const linkEl = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+      .find(l => /\.css$/.test(l.getAttribute('href') || '') && !/fonts\.googleapis/.test(l.getAttribute('href') || ''));
+    const href = linkEl ? linkEl.getAttribute('href') : 'light.css';
+    const variantName = href.replace(/\.css$/, '');
+
+    document.querySelectorAll('[data-theme-name]').forEach(el => el.textContent = variantName);
+    document.querySelectorAll('[data-stylesheet]').forEach(el => el.textContent = href);
+    document.querySelectorAll('[data-source]').forEach(el => el.textContent = 'rendered from samples/' + variantName + '.json');
+    document.title = variantName + ' — tangible';
+
+    // Discover custom properties. Primary: getComputedStyle on :root (works on file://).
+    // Fallback: walk document.styleSheets (blocked by Chrome SOP for file:// in some versions).
+    const props = new Set();
+    const cs = getComputedStyle(document.documentElement);
+    for (let i = 0; i < cs.length; i++) {
+      const prop = cs[i];
+      if (prop.startsWith('--')) props.add(prop);
+    }
+    if (props.size === 0) {
+      for (const sheet of document.styleSheets) {
+        try {
+          for (const rule of sheet.cssRules) {
+            if (!rule.style) continue;
+            if (rule.selectorText && (rule.selectorText === ':root' || rule.selectorText === 'html' || rule.selectorText.includes(':root'))) {
+              for (let i = 0; i < rule.style.length; i++) {
+                const prop = rule.style[i];
+                if (prop.startsWith('--')) props.add(prop);
+              }
+            }
+          }
+        } catch (e) { /* cross-origin sheet, skip */ }
+      }
+    }
+    console.log('[tangible] discovered ' + props.size + ' custom properties');
+
+    // Palettes
+    const paletteGrid = document.querySelector('[data-palette-grid]');
+    if (paletteGrid) {
+      const palettes = {};
+      for (const p of props) {
+        const m = p.match(/^--colors-([a-z]+)-(\d+)$/);
+        if (m) {
+          const [, name, shade] = m;
+          (palettes[name] = palettes[name] || []).push({ shade: parseInt(shade, 10), prop: p });
+        }
+      }
+      // Sort palette names: neutral first, then alphabetical
+      const names = Object.keys(palettes).sort((a, b) => {
+        if (a === 'neutral') return -1;
+        if (b === 'neutral') return 1;
+        return a.localeCompare(b);
+      });
+      for (const name of names) {
+        palettes[name].sort((a, b) => a.shade - b.shade);
+        const row = document.createElement('div');
+        row.className = 'palette-row';
+        const label = document.createElement('span');
+        label.className = 'palette-name';
+        label.textContent = name;
+        row.appendChild(label);
+        const sw = document.createElement('div');
+        sw.className = 'palette-swatches';
+        for (const { shade, prop } of palettes[name]) {
+          const cell = document.createElement('div');
+          cell.className = 'swatch';
+          cell.style.background = 'var(' + prop + ')';
+          cell.style.color = shade >= 500 ? 'var(--color-bg)' : 'var(--color-text)';
+          cell.textContent = shade;
+          sw.appendChild(cell);
+        }
+        row.appendChild(sw);
+        paletteGrid.appendChild(row);
+      }
+    }
+
+    // Semantic colours
+    const semanticGrid = document.querySelector('[data-semantic-grid]');
+    if (semanticGrid) {
+      const semantic = [];
+      for (const p of props) {
+        const m = p.match(/^--color-([a-z]+)$/);
+        if (m) semantic.push(m[1]);
+      }
+      const order = ['bg', 'surface', 'text', 'muted', 'accent', 'primary', 'secondary'];
+      semantic.sort((a, b) => {
+        const ai = order.indexOf(a), bi = order.indexOf(b);
+        if (ai === -1 && bi === -1) return a.localeCompare(b);
+        if (ai === -1) return 1;
+        if (bi === -1) return -1;
+        return ai - bi;
+      });
+      for (const name of semantic) {
+        const chip = document.createElement('div');
+        chip.className = 'semantic-chip';
+        chip.style.background = 'var(--color-' + name + ')';
+        chip.style.color = 'var(--color-' + name + '-ink)';
+        chip.style.textShadow = 'var(--color-' + name + '-shadow, none)';
+        const n = document.createElement('span');
+        n.className = 'name';
+        n.textContent = name;
+        const v = document.createElement('span');
+        v.className = 'var';
+        v.textContent = '--color-' + name;
+        chip.append(n, v);
+        semanticGrid.appendChild(chip);
+      }
+    }
+
+    // Gradients
+    const gradientGrid = document.querySelector('[data-gradient-grid]');
+    if (gradientGrid) {
+      const names = new Set();
+      for (const p of props) {
+        const m = p.match(/^--gradient-([a-z][a-z0-9-]*?)(-resolved)?$/);
+        if (m && !p.endsWith('-resolved')) names.add(m[1]);
+      }
+      const sorted = Array.from(names).sort();
+      for (const name of sorted) {
+        const row = document.createElement('div');
+        row.className = 'gradient-row';
+        const lbl = document.createElement('span');
+        lbl.className = 'gradient-name';
+        lbl.textContent = name;
+        row.appendChild(lbl);
+        const strip = document.createElement('div');
+        strip.className = 'gradient-strip';
+        strip.style.background = 'var(--gradient-' + name + ')';
+        row.appendChild(strip);
+        gradientGrid.appendChild(row);
+      }
+    }
+
+    // Glows
+    const glowGrid = document.querySelector('[data-glow-grid]');
+    if (glowGrid) {
+      const glows = {};
+      for (const p of props) {
+        const m = p.match(/^--glow-([a-z]+)-(low|medium|high)$/);
+        if (m) {
+          const [, hue, level] = m;
+          (glows[hue] = glows[hue] || {})[level] = p;
+        }
+      }
+      const hueNames = Object.keys(glows).sort();
+      for (const hue of hueNames) {
+        const row = document.createElement('div');
+        row.className = 'three-up';
+        if (hueNames.indexOf(hue) > 0) row.style.marginTop = '1.5rem';
+        for (const level of ['low', 'medium', 'high']) {
+          const cell = document.createElement('div');
+          cell.className = 'demo-cell glow-cell';
+          const disc = document.createElement('div');
+          disc.className = 'disc';
+          disc.style.boxShadow = 'var(' + glows[hue][level] + ')';
+          const lbl = document.createElement('span');
+          lbl.className = 'label';
+          lbl.textContent = '--glow-' + hue + '-' + level;
+          cell.append(disc, lbl);
+          row.appendChild(cell);
+        }
+        glowGrid.appendChild(row);
+      }
+    }
+  })();
+  </script>
+</body>
+</html>

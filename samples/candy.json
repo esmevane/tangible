@@ -1,0 +1,82 @@
+{
+  "scales": {
+    "shades": [100, 300, 500, 700, 900],
+    "sizes": ["sm", "md", "lg"],
+    "elevations": ["low", "medium", "high"]
+  },
+  "colors": {
+    "neutral": ["#fffaf5", "#fee9d6", "#f5b582", "#a86840", "#3a1f0e"],
+    "pink": {
+      "stops": ["#ffe4ec", "#ff4d8b", "#831843"],
+      "mode": "linear",
+      "blend": "oklab"
+    },
+    "lime": {
+      "stops": ["#f3fcd3", "#a3e635", "#365314"],
+      "mode": "linear",
+      "blend": "oklab"
+    }
+  },
+  "semantic": {
+    "bg": ["neutral", 100],
+    "surface": ["neutral", 300],
+    "text": ["neutral", 900],
+    "muted": ["neutral", 500],
+    "primary": ["pink", 500],
+    "secondary": ["lime", 500]
+  },
+  "fonts": {
+    "families": {
+      "sans": ["Inter", "system-ui", "sans-serif"],
+      "mono": ["JetBrains Mono", "monospace"],
+      "display": ["Caprasimo", "Georgia", "serif"]
+    },
+    "sizes": ["0.75rem", "1rem", "1.5rem"],
+    "weights": [400, 700],
+    "lineHeights": [1.4, 1.5, 1.6],
+    "letterSpacing": {}
+  },
+  "space": ["0.25rem", "0.5rem", "1rem"],
+  "dimensions": ["12rem", "20rem", "32rem"],
+  "borders": {
+    "radius": { "sm": "4px", "md": "8px", "lg": "16px" },
+    "widths": ["1px", "2px", "4px"]
+  },
+  "shadows": {
+    "colors": { "neutral": "20 60% 30%" },
+    "elevations": {
+      "low":    { "layers": 1, "offsets": [[0, 1]], "opacity": 0.10 },
+      "medium": { "layers": 2, "offsets": [[0, 2], [0, 4]], "opacity": 0.14 },
+      "high":   { "layers": 1, "offsets": [[0, 8]], "opacity": 0.20 }
+    }
+  },
+  "textShadows": {
+    "medium": { "blur": [2, 4], "opacity": 0.3 }
+  },
+  "ink": { "light": ["neutral", 100], "dark": ["neutral", 900] },
+  "glows": {
+    "pink": { "color": "hsla(340, 82%, 60%, {a})", "radii": [4, 8, 16] },
+    "lime": { "color": "hsla(80, 76%, 56%, {a})",  "radii": [4, 8, 16] }
+  },
+  "gradients": [
+    {
+      "name": "pink-sweep",
+      "type": "linear",
+      "angle": 135,
+      "stops": [["pink", 100], ["pink", 900]],
+      "blend": "oklab",
+      "samples": 5
+    },
+    {
+      "name": "lime-sweep",
+      "type": "linear",
+      "angle": 135,
+      "stops": [["lime", 100], ["lime", 900]],
+      "blend": "oklab",
+      "samples": 5
+    }
+  ],
+  "transitions": { "default": "150ms ease" },
+  "z": { "base": 0 },
+  "opacity": { "disabled": 0.4 }
+}

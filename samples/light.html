@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=960">
+  <title>tangible — light</title>
+  <link rel="stylesheet" href="light.css">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Inter,system-ui,sans-serif; background:#f0f0f3; color:#222; padding:0.75rem 1rem; }
+    h1 { font-size:1rem; font-weight:600; margin-bottom:0.5rem; }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; }
+    .card { background:#fff; border-radius:6px; padding:0.5rem; border:1px solid #e5e5ea; }
+    .card h2 { font-size:0.6rem; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:#999; margin-bottom:0.4rem; }
+
+    .row { display:flex; gap:4px; flex-wrap:wrap; }
+    .swatch { width:34px; height:34px; border-radius:4px; display:flex; align-items:flex-end; justify-content:center; font-size:0.5rem; font-weight:600; padding-bottom:1px; }
+    .sem { padding:0.25rem 0.4rem; border-radius:4px; font-size:0.6rem; font-weight:500; }
+    .sh { flex:1; padding:0.4rem; border-radius:6px; background:var(--color-surface); text-align:center; font-size:0.6rem; font-weight:500; }
+    .grad { height:24px; border-radius:4px; display:flex; align-items:center; padding:0 0.4rem; font-size:0.55rem; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,0.6); }
+    .glow { width:30px; height:30px; border-radius:50%; background:var(--color-accent); }
+    .rad { flex:1; height:30px; background:var(--color-surface); border:var(--border-width-md) solid var(--color-muted); display:flex; align-items:center; justify-content:center; font-size:0.55rem; }
+    .sp { height:6px; border-radius:3px; background:var(--color-muted); }
+    .ink { font-size:0.7rem; font-weight:500; padding:0.2rem 0.4rem; border-radius:4px; }
+    .type-lg { font-size:var(--font-size-lg); font-weight:var(--font-weight-700); }
+    .type-md { font-size:var(--font-size-md); }
+    .type-sm { font-size:var(--font-size-sm); }
+    .type-mono { font-family:var(--font-family-mono); }
+  </style>
+</head>
+<body>
+<h1>tangible — light</h1>
+<div class="grid">
+
+  <div class="card">
+    <h2>Palettes</h2>
+    <div class="row">
+      <div class="swatch" style="background:var(--colors-neutral-100);color:#222">100</div>
+      <div class="swatch" style="background:var(--colors-neutral-300);color:#222">300</div>
+      <div class="swatch" style="background:var(--colors-neutral-500);color:#222">500</div>
+      <div class="swatch" style="background:var(--colors-neutral-700);color:#fff">700</div>
+      <div class="swatch" style="background:var(--colors-neutral-900);color:#fff">900</div>
+      <div class="swatch" style="background:var(--colors-blue-100);color:#222">100</div>
+      <div class="swatch" style="background:var(--colors-blue-300);color:#222">300</div>
+      <div class="swatch" style="background:var(--colors-blue-500);color:#fff">500</div>
+      <div class="swatch" style="background:var(--colors-blue-700);color:#fff">700</div>
+      <div class="swatch" style="background:var(--colors-blue-900);color:#fff">900</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Typography</h2>
+    <div class="type-lg">Heading</div>
+    <div class="type-md">Body text looks like this</div>
+    <div class="type-sm">Small muted label</div>
+    <div class="type-sm type-mono">mono(space)</div>
+  </div>
+
+  <div class="card">
+    <h2>Space</h2>
+    <div class="sp" style="width:var(--space-sm)"></div>
+    <div class="sp" style="width:var(--space-md);margin-top:4px"></div>
+    <div class="sp" style="width:var(--space-lg);margin-top:4px"></div>
+  </div>
+
+  <div class="card">
+    <h2>Semantic Colors</h2>
+    <div class="row">
+      <div class="sem" style="background:var(--color-bg);color:var(--color-bg-ink)">bg</div>
+      <div class="sem" style="background:var(--color-surface);color:var(--color-surface-ink)">surface</div>
+      <div class="sem" style="background:var(--color-text);color:var(--color-text-ink);text-shadow:var(--color-text-shadow)">text</div>
+      <div class="sem" style="background:var(--color-muted);color:var(--color-muted-ink)">muted</div>
+      <div class="sem" style="background:var(--color-accent);color:var(--color-accent-ink)">accent</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Shadows</h2>
+    <div class="row">
+      <div class="sh" style="box-shadow:var(--shadow-neutral-low)">low</div>
+      <div class="sh" style="box-shadow:var(--shadow-neutral-medium)">medium</div>
+      <div class="sh" style="box-shadow:var(--shadow-neutral-high)">high</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Gradients</h2>
+    <div class="grad" style="background:var(--gradient-accent)">accent</div>
+  </div>
+
+  <div class="card">
+    <h2>Border Radius</h2>
+    <div class="row">
+      <div class="rad" style="border-radius:var(--radius-sm)">sm</div>
+      <div class="rad" style="border-radius:var(--radius-md)">md</div>
+      <div class="rad" style="border-radius:var(--radius-lg)">lg</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Glows</h2>
+    <div class="row">
+      <div class="glow" style="box-shadow:var(--glow-blue-low)"></div>
+      <div class="glow" style="box-shadow:var(--glow-blue-medium)"></div>
+      <div class="glow" style="box-shadow:var(--glow-blue-high)"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Contrast Ink</h2>
+    <div class="ink" style="background:var(--color-bg);color:var(--color-bg-ink)">bg on bg</div>
+    <div class="ink" style="background:var(--color-text);color:var(--color-text-ink);text-shadow:var(--color-text-shadow);margin-top:4px">text on text</div>
+  </div>
+
+</div>
+</body>
+</html>

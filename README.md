@@ -6,6 +6,41 @@ A library and command-line tool for turning a structured design-token specificat
 [serde](https://serde.rs)-compatible format) into a CSS custom-property sheet you can drop into any
 project.
 
+## Themes
+
+Five sample themes, each rendered from a single JSON spec. Source specs and sample HTML are in
+[`samples/`](samples/).
+
+### Prose
+
+*Editorial light · Literata · blue + amber on warm neutrals*
+
+![prose](samples/prose.png)
+
+### Starliner
+
+*Sleek dark · Sora · violet + emerald*
+
+![starliner](samples/starliner.png)
+
+### Tropical
+
+*Vivid · Bricolage Grotesque · coral + teal*
+
+![tropical](samples/tropical.png)
+
+### Candy
+
+*Sweet light · Caprasimo · pink + lime on cream*
+
+![candy](samples/candy.png)
+
+### Cosmic
+
+*Deep space · Audiowide · magenta + cyan on ink*
+
+![cosmic](samples/cosmic.png)
+
 ## At a glance
 
 ```bash

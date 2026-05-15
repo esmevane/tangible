@@ -1,0 +1,82 @@
+{
+  "scales": {
+    "shades": [100, 300, 500, 700, 900],
+    "sizes": ["sm", "md", "lg"],
+    "elevations": ["low", "medium", "high"]
+  },
+  "colors": {
+    "neutral": ["#fafaf9", "#e7e5e4", "#a8a29e", "#57534e", "#1c1917"],
+    "coral": {
+      "stops": ["#fff1f0", "#f43f5e", "#4c0519"],
+      "mode": "basis",
+      "blend": "oklab"
+    },
+    "teal": {
+      "stops": ["#e6fffa", "#0d9488", "#042f2e"],
+      "mode": "catmull-rom",
+      "blend": "oklab"
+    }
+  },
+  "semantic": {
+    "bg": ["neutral", 100],
+    "surface": ["neutral", 300],
+    "text": ["neutral", 900],
+    "muted": ["neutral", 500],
+    "primary": ["coral", 500],
+    "secondary": ["teal", 500]
+  },
+  "fonts": {
+    "families": {
+      "sans": ["Inter", "system-ui", "sans-serif"],
+      "mono": ["JetBrains Mono", "monospace"],
+      "display": ["Bricolage Grotesque", "system-ui", "sans-serif"]
+    },
+    "sizes": ["0.75rem", "1rem", "1.5rem"],
+    "weights": [400, 700],
+    "lineHeights": [1.4, 1.5, 1.6],
+    "letterSpacing": {}
+  },
+  "space": ["0.25rem", "0.5rem", "1rem"],
+  "dimensions": ["12rem", "20rem", "32rem"],
+  "borders": {
+    "radius": { "sm": "4px", "md": "8px", "lg": "16px" },
+    "widths": ["1px", "2px", "4px"]
+  },
+  "shadows": {
+    "colors": { "neutral": "220 8% 8%" },
+    "elevations": {
+      "low": { "layers": 1, "offsets": [[0, 1]], "opacity": 0.1 },
+      "medium": { "layers": 2, "offsets": [[0, 2], [0, 4]], "opacity": 0.16 },
+      "high": { "layers": 1, "offsets": [[0, 8]], "opacity": 0.22 }
+    }
+  },
+  "textShadows": {
+    "medium": { "blur": [2, 4], "opacity": 0.3 }
+  },
+  "ink": { "light": ["neutral", 100], "dark": ["neutral", 900] },
+  "glows": {
+    "coral": { "color": "hsla(350, 89%, 60%, {a})", "radii": [4, 8, 16] },
+    "teal": { "color": "hsla(174, 72%, 36%, {a})", "radii": [4, 8, 16] }
+  },
+  "gradients": [
+    {
+      "name": "coral-sweep",
+      "type": "linear",
+      "angle": 135,
+      "stops": [["coral", 100], ["coral", 900]],
+      "blend": "oklab",
+      "samples": 5
+    },
+    {
+      "name": "teal-sweep",
+      "type": "linear",
+      "angle": 225,
+      "stops": [["teal", 100], ["teal", 900]],
+      "blend": "oklab",
+      "samples": 5
+    }
+  ],
+  "transitions": { "default": "150ms ease" },
+  "z": { "base": 0 },
+  "opacity": { "disabled": 0.4 }
+}

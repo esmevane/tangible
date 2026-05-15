@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>tangible — compact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,700&family=Sora:wght@400;500;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&family=Caprasimo&family=Audiowide&display=swap">
+  <link rel="stylesheet" href="tropical.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-family-sans);
+      font-size: var(--font-size-md);
+      line-height: var(--line-height-md);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-feature-settings: 'kern', 'liga', 'calt';
+      overflow: hidden;
+    }
+
+    .sheet {
+      height: 100vh;
+      min-height: 760px;
+      padding: clamp(1rem, 2vw, 1.75rem);
+      display: grid;
+      grid-template-columns: 19rem repeat(3, 1fr);
+      grid-template-rows: auto auto 1fr 1fr auto auto;
+      gap: clamp(0.6rem, 1vw, 1rem);
+      grid-template-areas:
+        "title    palettes  palettes  palettes"
+        "title    semantic  semantic  semantic"
+        "type     contrast  shadows   glows"
+        "type     radii     borders   glows"
+        "space    dim       gradients trans"
+        "footer   footer    footer    footer";
+    }
+
+    /* ---- Panels (no card chrome — just labels + content) ---- */
+    .panel { display: grid; grid-template-rows: auto 1fr; gap: 0.5rem; min-width: 0; min-height: 0; }
+    .panel-label {
+      font-family: var(--font-family-mono);
+      font-size: 0.7rem;
+      font-weight: var(--font-weight-500);
+      color: var(--color-muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    .panel-label .num { color: var(--color-text); opacity: 0.4; }
+    .panel-body { min-width: 0; min-height: 0; overflow: hidden; }
+
+    /* ---- Title panel ---- */
+    .title {
+      grid-area: title;
+      padding: 0.25rem 1.5rem 0.5rem 0.25rem;
+      display: grid;
+      grid-template-rows: 1fr auto auto;
+      gap: 0.85rem;
+      align-content: end;
+    }
+    .wordmark {
+      font-family: var(--font-family-display);
+      font-size: clamp(3rem, 7vw, 5rem);
+      font-weight: var(--font-weight-700);
+      line-height: 0.9;
+      letter-spacing: -0.045em;
+      align-self: end;
+      text-transform: lowercase;
+    }
+    .byline {
+      font-family: var(--font-family-display);
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: var(--color-muted);
+      max-width: 22ch;
+    }
+    .byline .brand {
+      font-family: var(--font-family-mono);
+      font-style: normal;
+      font-size: 0.85em;
+      color: var(--color-text);
+      letter-spacing: 0.02em;
+    }
+    .title-meta {
+      font-family: var(--font-family-mono);
+      font-size: 0.7rem;
+      color: var(--color-muted);
+      letter-spacing: 0.06em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    /* ---- Palettes ---- */
+    .palettes { grid-area: palettes; }
+    .palettes .palette-row {
+      display: grid;
+      grid-template-columns: 5rem 1fr;
+      gap: 0.6rem;
+      align-items: center;
+      margin-bottom: 0.25rem;
+    }
+    .palettes .palette-name {
+      font-family: var(--font-family-mono);
+      font-size: 0.75rem;
+      color: var(--color-muted);
+    }
+    .palettes .palette-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(2rem, 1fr));
+      gap: 2px;
+    }
+    .palettes .swatch {
+      aspect-ratio: 5 / 3;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 0.2rem 0.3rem;
+      font-family: var(--font-family-mono);
+      font-size: 0.65rem;
+    }
+
+    /* ---- Semantic ---- */
+    .semantic { grid-area: semantic; }
+    .semantic .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+      gap: 1px;
+      height: 100%;
+    }
+    .semantic .chip {
+      padding: 0.6rem 0.7rem;
+      display: grid;
+      align-content: end;
+      gap: 0.15rem;
+      min-height: 3.6rem;
+    }
+    .semantic .chip .name {
+      font-family: var(--font-family-mono);
+      font-size: 0.85rem;
+      font-weight: var(--font-weight-500);
+    }
+    .semantic .chip .var {
+      font-family: var(--font-family-mono);
+      font-size: 0.62rem;
+      opacity: 0.7;
+    }
+
+    /* ---- Typography ---- */
+    .type { grid-area: type; }
+    .type .specimen {
+      display: grid;
+      gap: 0.4rem;
+      align-content: start;
+    }
+    .type-display-line {
+      font-family: var(--font-family-display);
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: var(--font-weight-700);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+    }
+    .type-sans-line {
+      font-family: var(--font-family-sans);
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+    .type-mono-line {
+      font-family: var(--font-family-mono);
+      font-size: 0.78rem;
+      color: var(--color-muted);
+    }
+
+    /* ---- Contrast ---- */
+    .contrast { grid-area: contrast; }
+    .contrast .pair {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 1px;
+      height: 100%;
+    }
+    .contrast .cell {
+      padding: 0.6rem 0.8rem;
+      display: grid;
+      align-content: end;
+      gap: 0.15rem;
+    }
+    .contrast .cell .name {
+      font-family: var(--font-family-mono);
+      font-size: 0.8rem;
+      font-weight: var(--font-weight-500);
+    }
+    .contrast .cell .var {
+      font-family: var(--font-family-mono);
+      font-size: 0.62rem;
+      opacity: 0.7;
+    }
+
+    /* ---- Space / Dimensions ---- */
+    .space, .dim { display: grid; }
+    .space { grid-area: space; }
+    .dim { grid-area: dim; }
+    .bar-stack {
+      display: grid;
+      gap: 0.45rem;
+      align-content: start;
+    }
+    .bar-line {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .bar-label {
+      font-family: var(--font-family-mono);
+      font-size: 0.7rem;
+      color: var(--color-muted);
+    }
+    .bar {
+      height: 0.55rem;
+      background: var(--color-text);
+      border-radius: var(--radius-sm);
+    }
+
+    /* ---- Radii / Borders / Shadows / Gradients / Glows ---- */
+    .radii, .borders, .shadows, .gradients, .glows, .glows2, .trans {
+      display: grid;
+    }
+    .radii { grid-area: radii; }
+    .borders { grid-area: borders; }
+    .shadows { grid-area: shadows; }
+    .gradients { grid-area: gradients; }
+    .glows { grid-area: glows; }
+    .glows2 { grid-area: glows2; }
+    .trans { grid-area: trans; }
+
+    .triple {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      height: 100%;
+    }
+    .demo-cell {
+      background: var(--color-surface);
+      display: grid;
+      align-items: end;
+      justify-content: start;
+      padding: 0.5rem;
+      font-family: var(--font-family-mono);
+      font-size: 0.65rem;
+      color: var(--color-muted);
+      min-height: 3rem;
+    }
+    .border-cell {
+      background: transparent;
+      border-style: solid;
+      border-color: var(--color-text);
+    }
+    .shadow-cell {
+      background: var(--color-bg);
+      border: var(--border-width-sm) solid var(--color-muted);
+    }
+    .glow-cell {
+      background: transparent;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      align-items: end;
+      padding: 0.4rem;
+    }
+    .glow-cell .disc {
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      background: var(--color-bg);
+      border: var(--border-width-sm) solid var(--color-muted);
+      justify-self: center;
+      align-self: center;
+    }
+    .glow-cell .lbl {
+      font-family: var(--font-family-mono);
+      font-size: 0.6rem;
+      color: var(--color-muted);
+      margin-top: 0.25rem;
+    }
+    /* Glows panel stacks multiple hue rows vertically */
+    .glows .panel-body {
+      display: grid;
+      gap: 0.5rem;
+      align-content: start;
+    }
+
+    /* ---- Gradients ---- */
+    .gradients .stack {
+      display: grid;
+      gap: 0.3rem;
+      align-content: start;
+    }
+    .gradients .row {
+      display: grid;
+      grid-template-columns: 6rem 1fr;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .gradients .row .name {
+      font-family: var(--font-family-mono);
+      font-size: 0.7rem;
+      color: var(--color-muted);
+    }
+    .gradients .row .strip {
+      height: 1.6rem;
+      border-radius: var(--radius-sm);
+    }
+
+    /* ---- Transitions ---- */
+    .trans .demo {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      padding: 0.55rem 0.9rem;
+      border: var(--border-width-sm) solid var(--color-muted);
+      border-radius: var(--radius-md);
+      font-family: var(--font-family-mono);
+      font-size: 0.75rem;
+      transition: background var(--transition-default), color var(--transition-default), border-color var(--transition-default);
+      cursor: pointer;
+      background: transparent;
+      color: var(--color-text);
+      justify-self: start;
+      align-self: end;
+    }
+    .trans .demo:hover {
+      background: var(--color-text);
+      color: var(--color-bg);
+      border-color: var(--color-text);
+    }
+    .trans .demo .var {
+      font-size: 0.65rem;
+      opacity: 0.7;
+    }
+
+    /* ---- Footer ---- */
+    .footer {
+      grid-area: footer;
+      display: grid;
+      gap: 0.1rem;
+      align-content: end;
+      justify-items: end;
+      font-family: var(--font-family-mono);
+      font-size: 0.65rem;
+      color: var(--color-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ---- Compact viewport guards ---- */
+    @media (max-width: 1100px), (max-height: 740px) {
+      body { overflow: auto; }
+      .sheet {
+        height: auto;
+        min-height: 0;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+          "title    title"
+          "palettes palettes"
+          "semantic semantic"
+          "type     contrast"
+          "shadows  glows"
+          "radii    borders"
+          "space    dim"
+          "gradients trans"
+          "footer   footer";
+      }
+    }
+    @media (max-width: 640px) {
+      .sheet {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "title"
+          "palettes"
+          "semantic"
+          "type"
+          "contrast"
+          "shadows"
+          "glows"
+          "radii"
+          "borders"
+          "space"
+          "dim"
+          "gradients"
+          "trans"
+          "footer";
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <section class="title">
+    <h1 class="wordmark" data-theme-name>—</h1>
+    <p class="byline">sample design tokens by <span class="brand">tangible</span></p>
+    <div class="title-meta">
+      <span data-stylesheet>—</span>
+      <span>v0.0.1 · compact</span>
+    </div>
+  </section>
+
+  <section class="panel palettes">
+    <div class="panel-label"><span class="num">01</span><span>palettes</span></div>
+    <div class="panel-body" data-palette-grid></div>
+  </section>
+
+  <section class="panel semantic">
+    <div class="panel-label"><span class="num">02</span><span>semantic colours</span></div>
+    <div class="panel-body"><div class="grid" data-semantic-grid></div></div>
+  </section>
+
+  <section class="panel type">
+    <div class="panel-label"><span class="num">03</span><span>typography</span></div>
+    <div class="panel-body specimen">
+      <div class="type-display-line">Aa Bb 01</div>
+      <div class="type-sans-line">Body sans, sentence-cased.</div>
+      <div class="type-mono-line">monospace_var_name</div>
+    </div>
+  </section>
+
+  <section class="panel contrast">
+    <div class="panel-label"><span class="num">04</span><span>contrast ink</span></div>
+    <div class="panel-body">
+      <div class="pair">
+        <div class="cell" style="background:var(--color-surface);color:var(--color-surface-ink)">
+          <span class="name">surface · ink</span>
+          <span class="var">--color-surface, --color-surface-ink</span>
+        </div>
+        <div class="cell" style="background:var(--color-text);color:var(--color-text-ink);text-shadow:var(--color-text-shadow)">
+          <span class="name">text · ink</span>
+          <span class="var">--color-text, --color-text-ink</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel space">
+    <div class="panel-label"><span class="num">05</span><span>space</span></div>
+    <div class="panel-body bar-stack">
+      <div class="bar-line"><span class="bar-label">--space-sm</span><div class="bar" style="width:var(--space-sm)"></div></div>
+      <div class="bar-line"><span class="bar-label">--space-md</span><div class="bar" style="width:var(--space-md)"></div></div>
+      <div class="bar-line"><span class="bar-label">--space-lg</span><div class="bar" style="width:var(--space-lg)"></div></div>
+    </div>
+  </section>
+
+  <section class="panel dim">
+    <div class="panel-label"><span class="num">06</span><span>dimensions</span></div>
+    <div class="panel-body bar-stack">
+      <div class="bar-line"><span class="bar-label">--dimension-sm</span><div class="bar" style="width:var(--dimension-sm)"></div></div>
+      <div class="bar-line"><span class="bar-label">--dimension-md</span><div class="bar" style="width:var(--dimension-md)"></div></div>
+      <div class="bar-line"><span class="bar-label">--dimension-lg</span><div class="bar" style="width:var(--dimension-lg)"></div></div>
+    </div>
+  </section>
+
+  <section class="panel radii">
+    <div class="panel-label"><span class="num">07</span><span>radii</span></div>
+    <div class="panel-body triple">
+      <div class="demo-cell" style="border-radius:var(--radius-sm)">sm</div>
+      <div class="demo-cell" style="border-radius:var(--radius-md)">md</div>
+      <div class="demo-cell" style="border-radius:var(--radius-lg)">lg</div>
+    </div>
+  </section>
+
+  <section class="panel borders">
+    <div class="panel-label"><span class="num">08</span><span>border widths</span></div>
+    <div class="panel-body triple">
+      <div class="demo-cell border-cell" style="border-width:var(--border-width-sm)">sm</div>
+      <div class="demo-cell border-cell" style="border-width:var(--border-width-md)">md</div>
+      <div class="demo-cell border-cell" style="border-width:var(--border-width-lg)">lg</div>
+    </div>
+  </section>
+
+  <section class="panel shadows">
+    <div class="panel-label"><span class="num">09</span><span>shadows</span></div>
+    <div class="panel-body triple">
+      <div class="demo-cell shadow-cell" style="box-shadow:var(--shadow-neutral-low)">low</div>
+      <div class="demo-cell shadow-cell" style="box-shadow:var(--shadow-neutral-medium)">med</div>
+      <div class="demo-cell shadow-cell" style="box-shadow:var(--shadow-neutral-high)">high</div>
+    </div>
+  </section>
+
+  <section class="panel gradients">
+    <div class="panel-label"><span class="num">10</span><span>gradients</span></div>
+    <div class="panel-body"><div class="stack" data-gradient-grid></div></div>
+  </section>
+
+  <section class="panel glows">
+    <div class="panel-label"><span class="num">11</span><span>glows</span></div>
+    <div class="panel-body" data-glow-grid></div>
+  </section>
+
+  <section class="panel trans">
+    <div class="panel-label"><span class="num">12</span><span>transitions</span></div>
+    <div class="panel-body">
+      <button class="demo" type="button">hover <span class="var">— var(--transition-default)</span></button>
+    </div>
+  </section>
+
+  <section class="footer">
+    <span data-source>—</span>
+    <span>tangible · v0.0.1</span>
+  </section>
+
+</div>
+
+<script>
+(function() {
+  const linkEl = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+    .find(l => /\.css$/.test(l.getAttribute('href') || '') && !/fonts\.googleapis/.test(l.getAttribute('href') || ''));
+  const href = linkEl ? linkEl.getAttribute('href') : 'light.css';
+  const variantName = href.replace(/\.css$/, '');
+
+  document.querySelectorAll('[data-theme-name]').forEach(el => el.textContent = variantName);
+  document.querySelectorAll('[data-stylesheet]').forEach(el => el.textContent = href);
+  document.querySelectorAll('[data-source]').forEach(el => el.textContent = 'samples/' + variantName + '.json');
+  document.title = variantName + ' — tangible · compact';
+
+  const props = new Set();
+  const cs = getComputedStyle(document.documentElement);
+  for (let i = 0; i < cs.length; i++) {
+    const prop = cs[i];
+    if (prop.startsWith('--')) props.add(prop);
+  }
+  if (props.size === 0) {
+    for (const sheet of document.styleSheets) {
+      try {
+        for (const rule of sheet.cssRules) {
+          if (!rule.style) continue;
+          if (rule.selectorText && (rule.selectorText === ':root' || rule.selectorText === 'html' || rule.selectorText.includes(':root'))) {
+            for (let i = 0; i < rule.style.length; i++) {
+              const prop = rule.style[i];
+              if (prop.startsWith('--')) props.add(prop);
+            }
+          }
+        }
+      } catch (e) {}
+    }
+  }
+  console.log('[tangible compact] discovered ' + props.size + ' custom properties');
+
+  // Palettes
+  const paletteGrid = document.querySelector('[data-palette-grid]');
+  if (paletteGrid) {
+    const palettes = {};
+    for (const p of props) {
+      const m = p.match(/^--colors-([a-z]+)-(\d+)$/);
+      if (m) {
+        const [, name, shade] = m;
+        (palettes[name] = palettes[name] || []).push({ shade: parseInt(shade, 10), prop: p });
+      }
+    }
+    const names = Object.keys(palettes).sort((a, b) => {
+      if (a === 'neutral') return -1;
+      if (b === 'neutral') return 1;
+      return a.localeCompare(b);
+    });
+    for (const name of names) {
+      palettes[name].sort((a, b) => a.shade - b.shade);
+      const row = document.createElement('div');
+      row.className = 'palette-row';
+      const label = document.createElement('span');
+      label.className = 'palette-name';
+      label.textContent = name;
+      row.appendChild(label);
+      const sw = document.createElement('div');
+      sw.className = 'palette-swatches';
+      for (const { shade, prop } of palettes[name]) {
+        const cell = document.createElement('div');
+        cell.className = 'swatch';
+        cell.style.background = 'var(' + prop + ')';
+        cell.style.color = shade >= 500 ? 'var(--color-bg)' : 'var(--color-text)';
+        cell.textContent = shade;
+        sw.appendChild(cell);
+      }
+      row.appendChild(sw);
+      paletteGrid.appendChild(row);
+    }
+  }
+
+  // Semantic
+  const semanticGrid = document.querySelector('[data-semantic-grid]');
+  if (semanticGrid) {
+    const semantic = [];
+    for (const p of props) {
+      const m = p.match(/^--color-([a-z]+)$/);
+      if (m) semantic.push(m[1]);
+    }
+    const order = ['bg', 'surface', 'text', 'muted', 'accent', 'primary', 'secondary'];
+    semantic.sort((a, b) => {
+      const ai = order.indexOf(a), bi = order.indexOf(b);
+      if (ai === -1 && bi === -1) return a.localeCompare(b);
+      if (ai === -1) return 1;
+      if (bi === -1) return -1;
+      return ai - bi;
+    });
+    for (const name of semantic) {
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.style.background = 'var(--color-' + name + ')';
+      chip.style.color = 'var(--color-' + name + '-ink)';
+      chip.style.textShadow = 'var(--color-' + name + '-shadow, none)';
+      const n = document.createElement('span');
+      n.className = 'name';
+      n.textContent = name;
+      const v = document.createElement('span');
+      v.className = 'var';
+      v.textContent = '--color-' + name;
+      chip.append(n, v);
+      semanticGrid.appendChild(chip);
+    }
+  }
+
+  // Gradients
+  const gradientGrid = document.querySelector('[data-gradient-grid]');
+  if (gradientGrid) {
+    const names = new Set();
+    for (const p of props) {
+      const m = p.match(/^--gradient-([a-z][a-z0-9-]*?)(-resolved)?$/);
+      if (m && !p.endsWith('-resolved')) names.add(m[1]);
+    }
+    const sorted = Array.from(names).sort();
+    for (const name of sorted) {
+      const row = document.createElement('div');
+      row.className = 'row';
+      const lbl = document.createElement('span');
+      lbl.className = 'name';
+      lbl.textContent = name;
+      row.appendChild(lbl);
+      const strip = document.createElement('div');
+      strip.className = 'strip';
+      strip.style.background = 'var(--gradient-' + name + ')';
+      row.appendChild(strip);
+      gradientGrid.appendChild(row);
+    }
+  }
+
+  // Glows — all hues stacked vertically inside a single panel
+  const glowGrid = document.querySelector('[data-glow-grid]');
+  if (glowGrid) {
+    const glows = {};
+    for (const p of props) {
+      const m = p.match(/^--glow-([a-z]+)-(low|medium|high)$/);
+      if (m) {
+        const [, hue, level] = m;
+        (glows[hue] = glows[hue] || {})[level] = p;
+      }
+    }
+    const hueNames = Object.keys(glows).sort();
+    for (const hue of hueNames) {
+      const triple = document.createElement('div');
+      triple.className = 'triple';
+      for (const level of ['low', 'medium', 'high']) {
+        const cell = document.createElement('div');
+        cell.className = 'demo-cell glow-cell';
+        const disc = document.createElement('div');
+        disc.className = 'disc';
+        disc.style.boxShadow = 'var(' + glows[hue][level] + ')';
+        const lbl = document.createElement('span');
+        lbl.className = 'lbl';
+        lbl.textContent = hue + '-' + level.slice(0, 3);
+        cell.append(disc, lbl);
+        triple.appendChild(cell);
+      }
+      glowGrid.appendChild(triple);
+    }
+  }
+})();
+</script>
+</body>
+</html>

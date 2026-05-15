@@ -1,0 +1,82 @@
+{
+  "scales": {
+    "shades": [100, 300, 500, 700, 900],
+    "sizes": ["sm", "md", "lg"],
+    "elevations": ["low", "medium", "high"]
+  },
+  "colors": {
+    "neutral": ["#06070f", "#13141f", "#3a3d5b", "#9d9fc4", "#e6e8ff"],
+    "magenta": {
+      "stops": ["#fce7f3", "#d946ef", "#581c87"],
+      "mode": "linear",
+      "blend": "oklab"
+    },
+    "cyan": {
+      "stops": ["#cffafe", "#06b6d4", "#164e63"],
+      "mode": "linear",
+      "blend": "oklab"
+    }
+  },
+  "semantic": {
+    "bg": ["neutral", 100],
+    "surface": ["neutral", 300],
+    "text": ["neutral", 900],
+    "muted": ["neutral", 500],
+    "primary": ["magenta", 500],
+    "secondary": ["cyan", 500]
+  },
+  "fonts": {
+    "families": {
+      "sans": ["Inter", "system-ui", "sans-serif"],
+      "mono": ["JetBrains Mono", "monospace"],
+      "display": ["Audiowide", "system-ui", "sans-serif"]
+    },
+    "sizes": ["0.75rem", "1rem", "1.5rem"],
+    "weights": [400, 700],
+    "lineHeights": [1.4, 1.5, 1.6],
+    "letterSpacing": {}
+  },
+  "space": ["0.25rem", "0.5rem", "1rem"],
+  "dimensions": ["12rem", "20rem", "32rem"],
+  "borders": {
+    "radius": { "sm": "4px", "md": "8px", "lg": "16px" },
+    "widths": ["1px", "2px", "4px"]
+  },
+  "shadows": {
+    "colors": { "neutral": "240 30% 5%" },
+    "elevations": {
+      "low":    { "layers": 1, "offsets": [[0, 1]], "opacity": 0.20 },
+      "medium": { "layers": 2, "offsets": [[0, 2], [0, 4]], "opacity": 0.30 },
+      "high":   { "layers": 1, "offsets": [[0, 8]], "opacity": 0.40 }
+    }
+  },
+  "textShadows": {
+    "medium": { "blur": [2, 4], "opacity": 0.3 }
+  },
+  "ink": { "light": ["neutral", 900], "dark": ["neutral", 100] },
+  "glows": {
+    "magenta": { "color": "hsla(296, 73%, 64%, {a})", "radii": [4, 8, 16] },
+    "cyan":    { "color": "hsla(190, 95%, 42%, {a})", "radii": [4, 8, 16] }
+  },
+  "gradients": [
+    {
+      "name": "magenta-sweep",
+      "type": "linear",
+      "angle": 135,
+      "stops": [["magenta", 100], ["magenta", 900]],
+      "blend": "oklab",
+      "samples": 5
+    },
+    {
+      "name": "cyan-sweep",
+      "type": "linear",
+      "angle": 135,
+      "stops": [["cyan", 100], ["cyan", 900]],
+      "blend": "oklab",
+      "samples": 5
+    }
+  ],
+  "transitions": { "default": "150ms ease" },
+  "z": { "base": 0 },
+  "opacity": { "disabled": 0.4 }
+}
